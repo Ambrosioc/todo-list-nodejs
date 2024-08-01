@@ -15,6 +15,10 @@ const Task = db.define("Task", {
 		type: DataTypes.STRING,
 		allowNull: false,
 	},
+	author: {
+		type: DataTypes.STRING,
+		allowNull: false,
+	},
 });
 
 db.sync().then(() => {

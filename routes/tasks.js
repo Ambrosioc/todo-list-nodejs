@@ -24,4 +24,44 @@ router.post("/", async (req, res) => {
 	}
 });
 
+router.get("/:id", async (req, res) => {
+	const { id } = req.params;
+	const task = await Task.findByPk(id);
+
+	if (!task) {
+		res.status(404).json({ message: "Task not found" });
+	} else {
+		res.json(task);
+	}
+});
+
+router.put("/:id", async (req, res) => {
+	const { id } = req.params;
+	const { title, description } = req.body;
+
+	const task = await Task.findByPk(id);
+
+	if (!task) {
+		res.status(404).json({ message: "Task not found" });
+	} else {
+		task.title = title;
+		task.description = description;
+
+		await task.save();
+
+		res.json(task);
+	}
+});
+
+router.delete("/:id", async (req, res) => {
+	const { id } = req.params;
+	const task = await Task.findByPk(id);
+
+	if (!task) {
+		res.status(404).json({ message: "Task not found" });
+	} else {
+		await task.destroy();
+		res.json({ message: "Task deleted" });
+	}
+});
 export default router;
